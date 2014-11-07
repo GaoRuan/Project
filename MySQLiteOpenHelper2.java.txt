@@ -1,0 +1,76 @@
+ @Override
+	 public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+		 	// 一般默认情况下，当我们插入 数据库就立即更新
+		 	// 当数据库需要升级的时候，Android 系统会主动的调用这个方法。
+		 	// 一般我们在这个方法里边删除数据表，并建立新的数据表，
+		 	// 当然是否还需要做其他的操作，完全取决于游戏需求。
+	  Log.v("schedule", "onUpgrade");
+	 } 
+	 @SuppressWarnings("null")
+	public String[] onSelect(SQLiteDatabase db, int day, int no) {
+		 String[] a = null;
+		   Cursor cur = db.rawQuery("SELECT * FROM classes WHERE day="+day+" AND no="+no+";",null);
+	        if (cur != null) {
+//  		          String temp = "";
+//  		          String temp1="";
+  		          int i = 0;
+  		          while (cur.moveToNext()) {
+  		           a[0] += cur.getString(2); // 参数0 指的是列的下标,这里的0指的是id列
+  		           a[1] += cur.getString(3);
+  		           i++;
+//  		           if (i % 3 == 0)
+//  		            temp += "\n";// 整理显示格式 
+  		          }
+
+	        } 
+	        System.out.println(a[0]+a[1]);
+	       return  a;
+	  }
+	 
+	 
+	 
+//	 public boolean tabbleIsExist(SQLiteDatabase db,String tableName){
+//         boolean result = false;
+//         if(tableName == null){
+//                 return false;
+//         }
+//       //  SQLiteDatabase db = null;
+//         Cursor cursor = null;
+//         try {
+//             //    db = this.getReadableDatabase();
+//                 String sql = "SELECT COUNT(*) as C FROM "+DATABASE_NAME+" where type ='table' and name ='"+tableName.trim()+"' ";
+//                 cursor = db.rawQuery(sql, null);
+//                 if(cursor.moveToNext()){
+//                         int count = cursor.getInt(0);
+//                         if(count>0){
+//                                 result = true;
+//                         }
+//                 }
+//                 
+//         } catch (Exception e) {
+//                 // TODO: handle exception
+//         }                
+//        return result;
+// }
+	 
+	 
+	 
+	 public boolean tableis(SQLiteDatabase db,String tableName){
+		 
+		 
+		 
+         Cursor cs = db.rawQuery("select count(*) from sqlite_master where type ='table' and name = '"+tableName+"'", null);
+         if(cs.moveToNext()){
+             int count = cs.getInt(0);
+             if(count>0){
+                 return true;
+             }
+         }
+         return false;
+
+
+	 }
+
+
+
+	}
